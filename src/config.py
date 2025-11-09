@@ -7,7 +7,8 @@ CONFERENCE_LIST = [
     "https://conf.researchr.org/track/icse-{year}/icse-{year}-technical-track?",
     "https://conf.researchr.org/track/ase-{year}/ase-{year}-papers?",
     "https://conf.researchr.org/track/icse-{year}/icse-{year}-papers?",
-    "https://{year}.esec-fse.org/track/fse-{year}-papers"
+    "https://{year}.esec-fse.org/track/fse-{year}-papers",
+    "https://conf.researchr.org/track/ase-{year}/ase-{year}-research-papers?"
 ]
 
 # Generate years dynamically from 2018 to the current year
