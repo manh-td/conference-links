@@ -4,23 +4,21 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from .config import CONFERENCE_LIST, YEARS  # assumes these are defined elsewhere
 
 
-def check_url(url: str) -> tuple[str, str, str]:
+def check_url(url: str) -> tuple[str, bool, str]:
     """
     Check if a URL exists (returns status code 200–399).
-    Returns (url, status_text, error_message)
+    Returns (url, exists, error_message)
     """
     try:
         response = requests.head(url, allow_redirects=True, timeout=5)
-        if response.status_code < 400:
-            return url, "✅ Exists", ""
-        else:
-            return url, f"❌ HTTP {response.status_code}", f"HTTP {response.status_code}"
+        exists = response.status_code < 400
+        return url, exists, "" if exists else f"HTTP {response.status_code}"
     except requests.Timeout:
-        return url, "❌ Timeout", "Timeout"
+        return url, False, "Timeout"
     except requests.ConnectionError:
-        return url, "❌ Connection Error", "Connection Error"
+        return url, False, "Connection Error"
     except requests.RequestException as e:
-        return url, "❌ Request Failed", str(e)
+        return url, False, str(e)
 
 
 def build_url_list():
@@ -41,23 +39,23 @@ def main():
         for future in as_completed(future_to_data):
             year, url = future_to_data[future]
             try:
-                url_checked, status, error = future.result()
-                if status == "✅ Exists":
-                    results.append((year, url_checked, status))
+                url_checked, exists, error = future.result()
+                if exists:
+                    results.append((year, url_checked))
                 else:
-                    print(f"[{year}] {url_checked} --> {status} ({error})")
+                    print(f"[{year}] {url_checked} --> ❌ {error}")
             except Exception as e:
                 print(f"[{year}] {url} --> ❌ Unexpected error: {e}")
 
     # Write only existing links to README.md
     lines = ["# Conference Link Status\n"]
     lines.append(f"_Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}_\n")
-    lines.append("\n| Year | Conference URL | Status |")
-    lines.append("|------|----------------|--------|")
+    lines.append("\n| Year | Conference URL |")
+    lines.append("|------|----------------|")
 
     # Sort results for nicer readability
-    for year, url, status in sorted(results, key=lambda x: (x[0], x[1])):
-        lines.append(f"| {year} | [{url}]({url}) | {status} |")
+    for year, url in sorted(results, key=lambda x: (x[0], x[1])):
+        lines.append(f"| {year} | [{url}]({url}) |")
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
