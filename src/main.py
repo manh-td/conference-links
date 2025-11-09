@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from .config import CONFERENCE_LIST, YEARS  # assumes these are defined elsewhere
@@ -41,26 +42,33 @@ def main():
             try:
                 url_checked, exists, error = future.result()
                 if exists:
-                    results.append((year, url_checked))
+                    results.append({"year": year, "url": url_checked})
                 else:
                     print(f"[{year}] {url_checked} --> ❌ {error}")
             except Exception as e:
                 print(f"[{year}] {url} --> ❌ Unexpected error: {e}")
 
-    # Write only existing links to README.md
+    # Reverse the list so newest year is first
+    results_sorted = sorted(results, key=lambda x: x["year"], reverse=True)
+
+    # Write README.md
     lines = ["# Conference Link Status\n"]
     lines.append(f"_Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}_\n")
     lines.append("\n| Year | Conference URL |")
     lines.append("|------|----------------|")
 
-    # Sort results for nicer readability
-    for year, url in sorted(results, key=lambda x: (x[0], x[1])):
-        lines.append(f"| {year} | [{url}]({url}) |")
+    for item in results_sorted:
+        lines.append(f"| {item['year']} | [{item['url']}]({item['url']}) |")
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
-    print(f"\n✅ Found {len(results)} valid links — written to README.md")
+    # Dump JSONL file
+    with open("results.jsonl", "w", encoding="utf-8") as f_jsonl:
+        for item in results_sorted:
+            f_jsonl.write(json.dumps(item) + "\n")
+
+    print(f"\n✅ Found {len(results_sorted)} valid links — written to README.md and results.jsonl")
 
 
 if __name__ == "__main__":
