@@ -14,3 +14,4 @@ CONFERENCE_LIST = [
 # Generate years dynamically from 2018 to the current year
 current_year = datetime.now().year
 YEARS = [str(year) for year in range(2018, current_year + 1)]
+CONFERENCE = ["ASE", "FSE", "ICSE"]

@@ -1,20 +1,20 @@
-{"year": "2025", "url": "https://conf.researchr.org/track/ase-2025/ase-2025-papers?"}
-{"year": "2025", "url": "https://conf.researchr.org/track/icse-2025/icse-2025-research-track"}
-{"year": "2024", "url": "https://conf.researchr.org/track/ase-2024/ase-2024-research?"}
-{"year": "2024", "url": "https://conf.researchr.org/track/icse-2024/icse-2024-technical-track?"}
-{"year": "2024", "url": "https://conf.researchr.org/track/icse-2024/icse-2024-research-track"}
-{"year": "2024", "url": "https://2024.esec-fse.org/track/fse-2024-research-papers?"}
-{"year": "2024", "url": "https://conf.researchr.org/track/ase-2024/ase-2024-papers?"}
-{"year": "2023", "url": "https://2023.esec-fse.org/track/fse-2023-research-papers?"}
-{"year": "2023", "url": "https://conf.researchr.org/track/ase-2023/ase-2023-papers?"}
-{"year": "2023", "url": "https://conf.researchr.org/track/icse-2023/icse-2023-technical-track?"}
-{"year": "2022", "url": "https://2022.esec-fse.org/track/fse-2022-research-papers?"}
-{"year": "2022", "url": "https://conf.researchr.org/track/ase-2022/ase-2022-research-papers?"}
-{"year": "2022", "url": "https://conf.researchr.org/track/icse-2022/icse-2022-papers?"}
-{"year": "2021", "url": "https://conf.researchr.org/track/ase-2021/ase-2021-papers?"}
-{"year": "2021", "url": "https://2021.esec-fse.org/track/fse-2021-papers"}
-{"year": "2021", "url": "https://conf.researchr.org/track/icse-2021/icse-2021-papers?"}
-{"year": "2020", "url": "https://conf.researchr.org/track/ase-2020/ase-2020-papers?"}
-{"year": "2020", "url": "https://conf.researchr.org/track/icse-2020/icse-2020-papers?"}
-{"year": "2020", "url": "https://2020.esec-fse.org/track/fse-2020-papers"}
-{"year": "2019", "url": "https://conf.researchr.org/track/ase-2019/ase-2019-papers?"}
+{"year": "2025", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2025/ase-2025-papers?"}
+{"year": "2025", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2025/icse-2025-research-track"}
+{"year": "2024", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2024/ase-2024-research?"}
+{"year": "2024", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2024/ase-2024-papers?"}
+{"year": "2024", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2024/icse-2024-technical-track?"}
+{"year": "2024", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2024/icse-2024-research-track"}
+{"year": "2024", "conference": "FSE", "url": "https://2024.esec-fse.org/track/fse-2024-research-papers?"}
+{"year": "2023", "conference": "FSE", "url": "https://2023.esec-fse.org/track/fse-2023-research-papers?"}
+{"year": "2023", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2023/ase-2023-papers?"}
+{"year": "2023", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2023/icse-2023-technical-track?"}
+{"year": "2022", "conference": "FSE", "url": "https://2022.esec-fse.org/track/fse-2022-research-papers?"}
+{"year": "2022", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2022/ase-2022-research-papers?"}
+{"year": "2022", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2022/icse-2022-papers?"}
+{"year": "2021", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2021/ase-2021-papers?"}
+{"year": "2021", "conference": "FSE", "url": "https://2021.esec-fse.org/track/fse-2021-papers"}
+{"year": "2021", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2021/icse-2021-papers?"}
+{"year": "2020", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2020/ase-2020-papers?"}
+{"year": "2020", "conference": "ICSE", "url": "https://conf.researchr.org/track/icse-2020/icse-2020-papers?"}
+{"year": "2020", "conference": "FSE", "url": "https://2020.esec-fse.org/track/fse-2020-papers"}
+{"year": "2019", "conference": "ASE", "url": "https://conf.researchr.org/track/ase-2019/ase-2019-papers?"}

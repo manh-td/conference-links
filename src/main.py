@@ -2,8 +2,14 @@ import requests
 import json
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from .config import CONFERENCE_LIST, YEARS  # assumes these are defined elsewhere
+from .config import CONFERENCE_LIST, YEARS, CONFERENCE
 
+
+def get_conference(url:list):
+    for conf in CONFERENCE:
+        if conf.lower() in url:
+            return conf
+        
 
 def check_url(url: str) -> tuple[str, bool, str]:
     """
@@ -42,7 +48,7 @@ def main():
             try:
                 url_checked, exists, error = future.result()
                 if exists:
-                    results.append({"year": year, "url": url_checked})
+                    results.append({"year": year, "conference": get_conference(url_checked), "url": url_checked})
                 else:
                     print(f"[{year}] {url_checked} --> ❌ {error}")
             except Exception as e:
@@ -54,11 +60,11 @@ def main():
     # Write README.md
     lines = ["# Conference Link Status\n"]
     lines.append(f"_Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}_\n")
-    lines.append("\n| Year | Conference URL |")
-    lines.append("|------|----------------|")
+    lines.append("\n| Year | Conference | Conference URL |")
+    lines.append("|------|------|----------------|")
 
     for item in results_sorted:
-        lines.append(f"| {item['year']} | [{item['url']}]({item['url']}) |")
+        lines.append(f"| {item['year']} | {item['conference']} |[{item['url']}]({item['url']}) |")
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
