@@ -2,14 +2,17 @@ import requests
 import json
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from collections import defaultdict
 from .config import CONFERENCE_LIST, YEARS, CONFERENCE
 
 
-def get_conference(url:list):
+def get_conference(url: str):
+    """Return the conference name based on substring match in the URL."""
     for conf in CONFERENCE:
-        if conf.lower() in url:
+        if conf.lower() in url.lower():
             return conf
-        
+    return "Unknown"
+
 
 def check_url(url: str) -> tuple[str, bool, str]:
     """
@@ -48,33 +51,48 @@ def main():
             try:
                 url_checked, exists, error = future.result()
                 if exists:
-                    results.append({"year": year, "conference": get_conference(url_checked), "url": url_checked})
+                    results.append({
+                        "year": year,
+                        "conference": get_conference(url_checked),
+                        "url": url_checked
+                    })
                 else:
                     print(f"[{year}] {url_checked} --> ❌ {error}")
             except Exception as e:
                 print(f"[{year}] {url} --> ❌ Unexpected error: {e}")
 
-    # Reverse the list so newest year is first
-    results_sorted = sorted(results, key=lambda x: x["year"], reverse=True)
+    # Group results by (year, conference)
+    merged_results = defaultdict(list)
+    for item in results:
+        merged_results[(item["year"], item["conference"])].append(item["url"])
+
+    # Sort by year (descending)
+    sorted_results = sorted(merged_results.items(), key=lambda x: x[0][0], reverse=True)
 
     # Write README.md
     lines = ["# Conference Link Status\n"]
     lines.append(f"_Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}_\n")
-    lines.append("\n| Year | Conference | Conference URL |")
-    lines.append("|------|------|----------------|")
+    lines.append("\n| Year | Conference | Links |")
+    lines.append("|------|-------------|--------|")
 
-    for item in results_sorted:
-        lines.append(f"| {item['year']} | {item['conference']} |[{item['url']}]({item['url']}) |")
+    for (year, conference), urls in sorted_results:
+        link_list = [f"[Link {i+1}]({url})" for i, url in enumerate(urls)]
+        lines.append(f"| {year} | {conference} | {'; '.join(link_list)} |")
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
     # Dump JSONL file
     with open("results.jsonl", "w", encoding="utf-8") as f_jsonl:
-        for item in results_sorted:
-            f_jsonl.write(json.dumps(item) + "\n")
+        for (year, conference), urls in sorted_results:
+            record = {
+                "year": year,
+                "conference": conference,
+                "links": urls
+            }
+            f_jsonl.write(json.dumps(record) + "\n")
 
-    print(f"\n✅ Found {len(results_sorted)} valid links — written to README.md and results.jsonl")
+    print(f"\n✅ Found {len(results)} valid links merged into {len(sorted_results)} entries — written to README.md and results.jsonl")
 
 
 if __name__ == "__main__":
